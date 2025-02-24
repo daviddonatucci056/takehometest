@@ -1,0 +1,12 @@
+plugins {
+  id('org.ajoberstar.reckon.settings') version "0.19.1"
+}
+
+reckon {
+  defaultInferredScope = 'patch'
+  snapshots()
+  scopeCalc = calcScopeFromProp().or(calcScopeFromCommitMessages())
+  stageCalc = calcStageFromProp()
+}
+
+rootProject.name = 'takehome'
