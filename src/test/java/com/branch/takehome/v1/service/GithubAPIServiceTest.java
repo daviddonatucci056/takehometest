@@ -16,8 +16,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.branch.takehome.v1.beans.github.GithubRepo;
-import com.branch.takehome.v1.beans.github.GithubUser;
+import com.branch.takehome.v1.beans.GithubRepo;
+import com.branch.takehome.v1.beans.GithubUser;
 import com.branch.takehome.v1.restclient.CustomRestClientBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -78,9 +78,5 @@ public class GithubAPIServiceTest {
 		
 		assertEquals("Spoon-Knife", repos.get(6).getName());
 		assertEquals("https://github.com/octocat/Spoon-Knife", repos.get(6).getUrl());
-
 	}
-	
-
-	
 }

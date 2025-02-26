@@ -15,9 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.branch.takehome.v1.beans.github.GithubRepo;
-import com.branch.takehome.v1.beans.github.GithubUser;
-import com.branch.takehome.v1.beans.github.GithubUserData;
+import com.branch.takehome.v1.beans.GithubRepo;
+import com.branch.takehome.v1.beans.GithubUser;
+import com.branch.takehome.v1.beans.GithubUserData;
 import com.branch.takehome.v1.validation.GithubValidations;
 
 @SpringBootTest

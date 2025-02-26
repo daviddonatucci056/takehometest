@@ -1,4 +1,4 @@
-package com.branch.takehome.v1.beans.github;
+package com.branch.takehome.v1.beans;
 
 import java.time.LocalDateTime;
 import java.util.List;

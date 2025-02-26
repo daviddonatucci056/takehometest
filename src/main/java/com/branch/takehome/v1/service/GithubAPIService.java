@@ -8,10 +8,11 @@ import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.branch.takehome.v1.beans.github.GithubRepo;
-import com.branch.takehome.v1.beans.github.GithubUser;
+import com.branch.takehome.v1.beans.GithubRepo;
+import com.branch.takehome.v1.beans.GithubUser;
 import com.branch.takehome.v1.restclient.CustomRestClientBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,8 +27,7 @@ public class GithubAPIService {
 	@Autowired
 	private CustomRestClientBuilder rcBuilder;
 	
-	//TODO add cache
-	//@Cacheable("users")
+	@Cacheable(value="users")
 	public GithubUser getAPIUser(String username) throws IOException {
 		LOGGER.info("Calling github api for {}'s user data", username);
 		
@@ -47,8 +47,7 @@ public class GithubAPIService {
 	}
 	
 	
-	//TODO add cache
-	//@Cacheable("repos")
+	@Cacheable(value ="repos")
 	public List<GithubRepo> getAPIRepos(String username) throws NoSuchElementException, IOException {
 		LOGGER.info("Calling github api for {}'s repo data", username);
 		

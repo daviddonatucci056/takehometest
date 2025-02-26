@@ -32,10 +32,11 @@ class GithubValidationsTest {
 		assertEquals(username, GithubValidations.validateUserName(username));
 		username = "123456789012345678901234567890123456789";
 		assertEquals(username, GithubValidations.validateUserName(username));
-		username = "--a"; //TODO probably not actually valid but no time to fix
+		username = "--a"; //TODO probably not actually valid 
 		assertEquals(username, GithubValidations.validateUserName(username));
 		username = "asdfASD";
 		assertEquals(username, GithubValidations.validateUserName(username));
+		
 	}
 	
 	@Test
@@ -67,6 +68,11 @@ class GithubValidationsTest {
         
         assertThrows(InvalidInputException.class, () -> {
     		String username = "    ";
+        	GithubValidations.validateUserName(username);
+        });
+       
+        assertThrows(InvalidInputException.class, () -> {
+    		String username = "----";
         	GithubValidations.validateUserName(username);
         });
 	}

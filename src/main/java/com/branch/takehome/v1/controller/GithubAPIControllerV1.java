@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.branch.takehome.v1.beans.github.GithubUserData;
+import com.branch.takehome.v1.beans.GithubUserData;
 import com.branch.takehome.v1.exception.InvalidInputException;
 import com.branch.takehome.v1.service.GithubService;
 import com.branch.takehome.v1.validation.GithubValidations;
@@ -28,11 +28,11 @@ public class GithubAPIControllerV1 {
 	public GithubUserData getGithubData(@PathVariable String username) throws InvalidInputException, IOException {
 		LOGGER.info("Getting github user info");
 		//validate
-		String sanitizedUsername = GithubValidations.validateUserName(username);
+		String validatedUsername = GithubValidations.validateUserName(username);
 		
-		LOGGER.info("Requesting github data for user {} ", sanitizedUsername);
+		LOGGER.info("Requesting github data for user {} ", validatedUsername);
 
-		GithubUserData userData = githubService.buildGithubUserData(sanitizedUsername);
+		GithubUserData userData = githubService.buildGithubUserData(validatedUsername);
 		
 		return userData;
 	}
