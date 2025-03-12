@@ -30,15 +30,6 @@ class GithubServiceTest {
 	private GithubService service = new GithubService();
 	
 	@Test
-	void testLocalDateGithub() {
-		assertNull(GithubValidations.readGithubDate(null));
-		
-		LocalDateTime testDate = LocalDateTime.of(2025, 12, 1, 10, 2, 16);
-		
-		assertEquals(testDate, GithubValidations.readGithubDate("2025-12-01T10:02:16Z"));
-	}
-	
-	@Test
 	void testBuildGithubUserDataValid() throws IOException {
 		LocalDateTime expectedDate = LocalDateTime.of(2025, 12, 1, 10, 2, 16);
 		

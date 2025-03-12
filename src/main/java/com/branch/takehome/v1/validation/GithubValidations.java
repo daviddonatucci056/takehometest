@@ -1,30 +1,20 @@
 package com.branch.takehome.v1.validation;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.branch.takehome.v1.exception.InvalidInputException;
 
 public class GithubValidations {
-	private static final DateTimeFormatter githubDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+	
+	// starts with alphanumeric, 
+	//captures alphanumeric or - with a look ahead to make sure the next character is a alphanumeric
+	// do that 0 to 38 times for a total of 39 characters
+	private static final Pattern USER_NAME_PATTERN = Pattern.compile("^[a-zA-Z\\d](?:[a-zA-Z\\d]|-(?=[a-zA-Z\\d])){0,38}$");
 	
 	private GithubValidations() {
 		//singleton
-	}
-	
-	/**
-	 * reads a github date in the form yyyy-MM-ddTHH:mm:ssZ
-	 * @param date
-	 * @return
-	 */
-	public static LocalDateTime readGithubDate(String date) {
-		if(date == null) {
-			return null;
-		}
-		
-		return LocalDateTime.parse(date, githubDateFormatter);
 	}
 	
 	/** 
@@ -34,7 +24,7 @@ public class GithubValidations {
 	 * @throws InvalidInputException
 	 */
 	public static String validateUserName(String username) throws InvalidInputException {
-		if(StringUtils.isNotBlank(username) && username.length() < 40 && StringUtils.isAlphanumeric(username.replace("-", ""))) {
+		if(StringUtils.isNotBlank(username) && USER_NAME_PATTERN.matcher(username).find()) { 
 			return username;
 		}
 		
