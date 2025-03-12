@@ -1,4 +1,4 @@
-package com.branch.takehome.v1.beans;
+package com.branch.takehome.v1.github.api;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 

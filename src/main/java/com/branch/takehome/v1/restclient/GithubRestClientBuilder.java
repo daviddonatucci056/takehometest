@@ -6,7 +6,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import com.branch.takehome.v1.beans.GithubRepo;
+import com.branch.takehome.v1.github.api.GithubRepo;
 import com.branch.takehome.v1.github.api.GithubUser;
 
 @Component

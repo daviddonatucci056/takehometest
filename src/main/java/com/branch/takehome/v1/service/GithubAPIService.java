@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.branch.takehome.v1.beans.GithubRepo;
+import com.branch.takehome.v1.github.api.GithubRepo;
 import com.branch.takehome.v1.github.api.GithubUser;
 import com.branch.takehome.v1.restclient.GithubRestClientBuilder;
 

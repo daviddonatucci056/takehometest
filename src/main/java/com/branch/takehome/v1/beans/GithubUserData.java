@@ -3,6 +3,7 @@ package com.branch.takehome.v1.beans;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.branch.takehome.v1.github.api.GithubRepo;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
