@@ -1,7 +1,6 @@
 package com.branch.takehome.v1.service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.branch.takehome.v1.beans.GithubRepo;
-import com.branch.takehome.v1.beans.GithubUser;
 import com.branch.takehome.v1.beans.GithubUserData;
-import com.branch.takehome.v1.validation.GithubValidations;
+import com.branch.takehome.v1.github.api.GithubUser;
 
 @Service
 public class GithubService {
@@ -25,10 +23,6 @@ public class GithubService {
 		LOGGER.info("Building user data");
 		
 		GithubUser apiUser = apiService.getAPIUser(username);
-		
-		//make sure we have all valid inputs before calling next call
-		LocalDateTime createdAt = GithubValidations.readGithubDate(apiUser.getCreatedAt());
-		
 		List<GithubRepo> apiRepos = apiService.getAPIRepos(username);
 		
 		return GithubUserData.builder()
@@ -38,7 +32,7 @@ public class GithubService {
 				.geoLocation(apiUser.getGeoLocation())
 				.email(apiUser.getEmail())
 				.url(apiUser.getUrl())
-				.createdAt(createdAt)
+				.createdAt(apiUser.getCreatedAt())
 				.repos(apiRepos)
 				.build();
 	}

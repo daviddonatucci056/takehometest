@@ -32,8 +32,6 @@ public class GithubAPIControllerV1 {
 		
 		LOGGER.info("Requesting github data for user {} ", validatedUsername);
 
-		GithubUserData userData = githubService.buildGithubUserData(validatedUsername);
-		
-		return userData;
+		return githubService.buildGithubUserData(validatedUsername);
 	}
 }

@@ -6,9 +6,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -17,43 +16,34 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.branch.takehome.v1.beans.GithubRepo;
-import com.branch.takehome.v1.beans.GithubUser;
-import com.branch.takehome.v1.restclient.CustomRestClientBuilder;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.branch.takehome.v1.github.api.GithubUser;
+import com.branch.takehome.v1.restclient.GithubRestClientBuilder;
 
 @SpringBootTest
-public class GithubAPIServiceTest {
-	private ObjectMapper mapper = new ObjectMapper();
-
+class GithubAPIServiceTest {
 	@Mock
-	private CustomRestClientBuilder rcBuilder;
+	private GithubRestClientBuilder rcBuilder;
 	
 	@InjectMocks
 	private GithubAPIService service = new GithubAPIService();
 	
-	@Test
-	void testGetTextNullSafe() throws IOException {
-		JsonNode node = null;
-		assertNull(service.getTextNullSafe(node));
-		
-		String json = "{\"hello\":null}";
-		node = mapper.readTree(json);
-		assertNull(service.getTextNullSafe(node.get("hello")));
-
-		json = "{\"hello\":\"null\"}";
-		node = mapper.readTree(json);
-		assertEquals("null", service.getTextNullSafe(node.get("hello")));
-
-		
-		json = "{\"hello\":\"world\"}";
-		node = mapper.readTree(json);
-		assertEquals("world", service.getTextNullSafe(node.get("hello")));
-	}
 	
 	@Test
-	void testGetAPIUser() throws IOException, URISyntaxException {
-		when(rcBuilder.buildGetClientStringResponse(anyString())).thenReturn(new String(Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource("user.json").toURI()))));
+	void testGetAPIUser() {
+		LocalDateTime expectedDate = LocalDateTime.of(2025, 12, 1, 10, 2, 16);
+
+		GithubUser expectedUser = 
+				GithubUser.builder()
+				.userName("octocat")
+				.url("https://github.com/octocat")
+				.email(null)
+				.avatar("https://avatars.githubusercontent.com/u/583231?v=4")
+				.displayName("The Octocat")
+				.geoLocation("San Francisco")
+				.createdAt(expectedDate)
+				.build();
+		
+		when(rcBuilder.buildGetUserData(anyString())).thenReturn(expectedUser);
 		GithubUser user = service.getAPIUser("octocat");
 		
 		assertEquals("octocat", user.getUserName());
@@ -62,12 +52,17 @@ public class GithubAPIServiceTest {
 		assertEquals("San Francisco", user.getGeoLocation());
 		assertNull(user.getEmail());
 		assertEquals("https://github.com/octocat", user.getUrl());
-		assertEquals("2011-01-25T18:44:36Z", user.getCreatedAt());
+		assertEquals(expectedDate, user.getCreatedAt());
 	}
 	
 	@Test
-	void testGetAPIRepos() throws IOException, URISyntaxException {
-		when(rcBuilder.buildGetClientStringResponse(anyString())).thenReturn(new String(Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource("repos.json").toURI()))));
+	void testGetAPIRepos() throws IOException {
+		List<GithubRepo> expectedRepos = new ArrayList<>();
+		expectedRepos.add(GithubRepo.builder().name("boysenberry-repo-1").url("https://github.com/octocat/boysenberry-repo-1").build());
+		expectedRepos.add(GithubRepo.builder().name("git-consortium").url("https://github.com/octocat/git-consortium").build());
+		expectedRepos.add(GithubRepo.builder().name("Spoon-Knife").url("https://github.com/octocat/Spoon-Knife").build());
+
+		when(rcBuilder.buildGetRepoData(anyString())).thenReturn(expectedRepos);
 		List<GithubRepo> repos = service.getAPIRepos("octocat");
 		
 		assertEquals("boysenberry-repo-1", repos.get(0).getName());
@@ -76,7 +71,7 @@ public class GithubAPIServiceTest {
 		assertEquals("git-consortium", repos.get(1).getName());
 		assertEquals("https://github.com/octocat/git-consortium", repos.get(1).getUrl());
 		
-		assertEquals("Spoon-Knife", repos.get(6).getName());
-		assertEquals("https://github.com/octocat/Spoon-Knife", repos.get(6).getUrl());
+		assertEquals("Spoon-Knife", repos.get(2).getName());
+		assertEquals("https://github.com/octocat/Spoon-Knife", repos.get(2).getUrl());
 	}
 }

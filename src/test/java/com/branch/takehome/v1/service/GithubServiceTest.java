@@ -16,8 +16,8 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.branch.takehome.v1.beans.GithubRepo;
-import com.branch.takehome.v1.beans.GithubUser;
 import com.branch.takehome.v1.beans.GithubUserData;
+import com.branch.takehome.v1.github.api.GithubUser;
 import com.branch.takehome.v1.validation.GithubValidations;
 
 @SpringBootTest
@@ -49,7 +49,7 @@ class GithubServiceTest {
 				.geoLocation("location")
 				.email("email")
 				.url("url")
-				.createdAt("2025-12-01T10:02:16Z")
+				.createdAt(expectedDate)
 				.build();
 		when(apiService.getAPIUser(anyString())).thenReturn(expectedUser);
 		
@@ -136,7 +136,7 @@ class GithubServiceTest {
 				.geoLocation("location")
 				.email("email")
 				.url("url")
-				.createdAt("2025-12-01T10:02:16Z")
+				.createdAt(expectedDate)
 				.build();
 		when(apiService.getAPIUser(anyString())).thenReturn(expectedUser);
 		
@@ -170,7 +170,7 @@ class GithubServiceTest {
 				.geoLocation("location")
 				.email("email")
 				.url("url")
-				.createdAt("2025-12-01T10:02:16Z")
+				.createdAt(expectedDate)
 				.build();
 		when(apiService.getAPIUser(anyString())).thenReturn(expectedUser);
 		
